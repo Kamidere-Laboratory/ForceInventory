@@ -118,26 +118,4 @@ internal class PlayerListener(private val config: Config) : Listener {
             }
         }
     }
-
-//    @EventHandler
-//    fun onPlayerInteract(event: PlayerInteractEvent) {
-//        val item = event.item
-//        if(item === null || item.type !== Material.COMPASS) return
-//        if(event.action !== Action.RIGHT_CLICK_BLOCK && event.action !== Action.RIGHT_CLICK_AIR ) return
-//        val player = event.player
-//        player.openInventory(menu)
-//    }
-//
-//    @EventHandler
-//    fun onInventoryClick(event: InventoryClickEvent) {
-//        val clickedInventory = event.clickedInventory
-//        if(clickedInventory === null || clickedInventory != menu) return
-//        plugin.server.sendMessage(miniMessage().deserialize("Clicked inside menu"))
-//        event.isCancelled = true
-//        if(!event.isLeftClick) return
-//        val item = event.currentItem
-//        if(item === null || item.type !== Material.GRASS_BLOCK) return
-//        val player = event.whoClicked
-//        player.sendMessage(miniMessage().deserialize("Clicked on server 1"))
-//    }
 }
