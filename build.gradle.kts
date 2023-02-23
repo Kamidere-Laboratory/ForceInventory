@@ -4,6 +4,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
+
 repositories {
     mavenCentral()
     maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
@@ -11,21 +12,26 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
 }
 
-java { toolchain.languageVersion.set(JavaLanguageVersion.of(17)) }
+buildscript {
+    version = "0.1.1"
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}
 
 tasks {
     shadowJar {
         archiveBaseName.set("ForceInventory")
-        archiveVersion.set("0.1.0")
+        archiveVersion.set("0.1.1")
         archiveClassifier.set("")
         minimize() // Will cause issues with Reflection
-
     }
 
     runServer {
         minecraftVersion("1.19.3")
-
     }
 }

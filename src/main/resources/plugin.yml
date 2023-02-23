@@ -1,8 +1,0 @@
-main: re.kamide.forceinventory.ForceInventory
-name: ForceInventory
-version: 0.1.0
-description: Force replace inventory at join
-api-version: 1.19 # Change to match Minecraft major version
-author: Kamide.re Laboratory  # [author1, author2] is also allowed
-website: https://kamide.re/minecraft
-prefix: ForceInventory # Prefix shown in logged messages

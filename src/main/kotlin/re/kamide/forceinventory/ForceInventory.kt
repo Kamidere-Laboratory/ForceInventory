@@ -5,8 +5,10 @@ import re.kamide.forceinventory.config.Config
 import re.kamide.forceinventory.listeners.PlayerListener
 
 class ForceInventory: JavaPlugin() {
+
   override fun onEnable() {
     val pluginConfig = Config(config)
+
     server.pluginManager.registerEvents(PlayerListener(pluginConfig), this)
   }
 
