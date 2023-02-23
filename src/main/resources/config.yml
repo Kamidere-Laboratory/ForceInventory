@@ -1,0 +1,19 @@
+# rows from bottom to top. Hotbar is row 1
+inventory:
+  - row: 1
+    slots:
+    - item: minecraft:dirt
+      slot: 9
+      count: 10
+  - row: 4
+    slots:
+    - item: minecraft:grass_block
+
+equipment:
+  offhand:
+    item: minecraft:compass
+    name: "<bold><color:#DB5461>Choose Server</color></bold>"
+  helmet:
+  chestplate:
+  leggings:
+  boots:
