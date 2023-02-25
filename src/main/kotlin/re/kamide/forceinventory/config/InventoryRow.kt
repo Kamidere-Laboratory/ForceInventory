@@ -1,8 +1,8 @@
 package re.kamide.forceinventory.config
 
-import javax.annotation.Nullable
+import kotlinx.serialization.Serializable
 
-@Nullable
+@Serializable
 data class InventoryRow(
   val row: Int,
   val slots: MutableList<InventoryItem>

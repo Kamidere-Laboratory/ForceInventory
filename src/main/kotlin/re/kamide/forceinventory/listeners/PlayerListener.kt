@@ -9,13 +9,13 @@ import net.kyori.adventure.text.minimessage.MiniMessage.miniMessage
 import org.bukkit.Bukkit
 import org.bukkit.event.EventPriority
 import org.bukkit.event.inventory.InventoryType
-import org.bukkit.inventory.PlayerInventory
 import re.kamide.forceinventory.config.Config
 
 internal class PlayerListener(private val config: Config) : Listener {
   private var forceInventory = Bukkit.createInventory(null, InventoryType.PLAYER)
   init {
     setItems()
+    setEquipment()
   }
   @EventHandler(priority = EventPriority.HIGHEST)
   fun onPlayerJoin(event: PlayerJoinEvent) {
@@ -24,100 +24,43 @@ internal class PlayerListener(private val config: Config) : Listener {
     val inventory = player.inventory
     inventory.clear()
     inventory.contents = forceInventory.contents
-    // Sadly Bukkit.createInventory cannot create PlayerInventory so armor is iterated on join each time
-    setEquipment(inventory)
 
     return
   }
 
-  // @ToDo Find better way to handle equipment
-  private fun setEquipment(playerInventory: PlayerInventory) {
-    val (offhand, helmet, chestplate, leggings, boots) = config.getEquipment()
-    fun setOffhand(){
-      if (offhand !== null) {
-        val material = Material.matchMaterial(offhand.item)
-        if (material === null) return
-        val item = ItemStack(material, 1)
-        if(offhand.name !== null) {
-          val itemMeta = item.itemMeta
-          itemMeta.displayName(miniMessage().deserialize(offhand.name))
-          item.itemMeta = itemMeta
-        }
-        playerInventory.setItemInOffHand(item)
+  private fun setEquipment() {
+    if(config.equipment === null) return
+    for ((place, itemData) in config.equipment.toMap().entries) {
+      if(itemData === null) continue
+      val material = Material.matchMaterial(itemData.item)
+      if (material === null) return
+      val item = ItemStack(material, 1)
+      if(itemData.name !== null) {
+        val itemMeta = item.itemMeta
+        itemMeta.displayName(miniMessage().deserialize(itemData.name))
+        item.itemMeta = itemMeta
+      }
+
+      when(place){
+        "offhand" -> forceInventory.setItem(40, item)
+        "helmet" -> forceInventory.setItem(39, item)
+        "chestplate" -> forceInventory.setItem(38, item)
+        "leggings" -> forceInventory.setItem(37, item)
+        "boots" -> forceInventory.setItem(36, item)
+        else -> Unit
       }
     }
-
-    fun setHelmet() {
-      if (helmet !== null) {
-        val material = Material.matchMaterial(helmet.item)
-        if (material === null) return
-        val item = ItemStack(material, 1)
-        if(helmet.name !== null) {
-          val itemMeta = item.itemMeta
-          itemMeta.displayName(miniMessage().deserialize(helmet.name))
-          item.itemMeta = itemMeta
-        }
-        playerInventory.helmet = item
-      }
-    }
-
-    fun setChestplate() {
-      if (chestplate !== null) {
-        val material = Material.matchMaterial(chestplate.item)
-        if (material === null) return
-        val item = ItemStack(material, 1)
-        if(chestplate.name !== null) {
-          val itemMeta = item.itemMeta
-          itemMeta.displayName(miniMessage().deserialize(chestplate.name))
-        }
-        playerInventory.chestplate = item
-      }
-    }
-
-    fun setLeggings() {
-      if (leggings !== null) {
-        val material = Material.matchMaterial(leggings.item)
-        if (material === null) return
-        val item = ItemStack(material, 1)
-        if(leggings.name !== null) {
-          val itemMeta = item.itemMeta
-          itemMeta.displayName(miniMessage().deserialize(leggings.name))
-          item.itemMeta = itemMeta
-        }
-        playerInventory.leggings = item
-      }
-    }
-
-    fun setBoots() {
-      if (boots !== null) {
-        val material = Material.matchMaterial(boots.item)
-        if (material === null) return
-        val item = ItemStack(material, 1)
-        if(boots.name !== null) {
-          val itemMeta = item.itemMeta
-          itemMeta.displayName(miniMessage().deserialize(boots.name))
-          item.itemMeta = itemMeta
-        }
-        playerInventory.boots = item
-      }
-    }
-
-    setOffhand()
-    setHelmet()
-    setChestplate()
-    setLeggings()
-    setBoots()
-
   }
 
   private fun setItems() {
-    for (inventoryRow in config.getInventory()) {
+    if(config.inventory === null) return
+    for (inventoryRow in config.inventory) {
       val row = when(inventoryRow.row) {
         1 -> 9
         2 -> 38
         3 -> 28
         4 -> 18
-        else -> 99
+        else -> continue
       }
 
       for (item in inventoryRow.slots) {
