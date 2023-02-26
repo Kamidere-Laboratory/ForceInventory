@@ -7,6 +7,7 @@ import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.repository.RemoteRepository;
 
+@SuppressWarnings("UnstableApiUsage")
 public class ForceInventoryLoader implements PluginLoader {
 
     @Override
@@ -15,7 +16,7 @@ public class ForceInventoryLoader implements PluginLoader {
         resolver.addDependency(new Dependency(new DefaultArtifact("org.jetbrains.kotlin:kotlin-stdlib:1.8.10"), null));
         resolver.addDependency(new Dependency(new DefaultArtifact("org.jetbrains.kotlin:kotlin-reflect:1.8.10"), null));
         resolver.addDependency(new Dependency(new DefaultArtifact("org.jetbrains.kotlin:kotlin-serialization:1.8.10"), null));
-        resolver.addDependency(new Dependency(new DefaultArtifact("com.charleskorn.kaml:kaml:0.52.0"), null));
+        resolver.addDependency(new Dependency(new DefaultArtifact("com.charleskorn.kaml:kaml-jvm:0.52.0"), null));
 
         resolver.addRepository(new RemoteRepository.Builder("central", "default", "https://repo1.maven.org/maven2/").build());
 

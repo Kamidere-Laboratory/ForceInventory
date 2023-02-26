@@ -9,14 +9,20 @@ plugins {
 repositories {
     mavenCentral()
     maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
+    maven { url = uri("https://repo.aikar.co/content/groups/aikar/") }
 }
 
 dependencies {
+    // Dl via paper
     compileOnly("io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT")
     compileOnly(kotlin("stdlib"))
     compileOnly(kotlin("reflect"))
     compileOnly(kotlin("serialization"))
-    compileOnly("com.charleskorn.kaml:kaml:0.52.0")
+    compileOnly("com.charleskorn.kaml:kaml-jvm:0.52.0")
+
+    // Shadowed
+    implementation("co.aikar:acf-paper:0.5.1-SNAPSHOT")
+
 }
 
 buildscript {
@@ -31,7 +37,9 @@ java {
 
 tasks {
     shadowJar {
-        minimize() // Will cause issues with Reflection
+        relocate("co.aikar.commands", "re.kamide.forceinventory.libs.acf")
+        relocate("co.aikar.locales", "re.kamide.forceinventory.libs.acf.locales")
+        //minimize() // Will cause issues with Reflection
     }
 
     runPaper {

@@ -17,20 +17,22 @@ data class Equipment(
   @get:Nullable
   val boots: EquipmentItem? = null
 ) {
-  public fun toMap() : Map<String, EquipmentItem?> {
-    val map = mutableMapOf<String, EquipmentItem?>()
-    map.set(key = "offhand", value = offhand)
-    map.set(key = "helmet", value = helmet)
-    map.set(key = "chestplate", value = chestplate)
-    map.set(key = "leggings", value = leggings)
-    map.set(key = "boots", value = boots)
-    return map
-//    ! For some reason it doesn't work but IDE show that everything is fine !
-//    val props = Equipment::class.declaredMemberProperties.associateBy { it.name }
-//    return props.keys.associateWith {
-//      val value = props[it]?.get(this)
-//      if (value is EquipmentItem) value
-//      else null
-//    }
+  fun toMap() : Map<String, EquipmentItem?> {
+    try {
+      val props = Equipment::class.declaredMemberProperties.associateBy { it.name }
+      return props.keys.associateWith {
+        val value = props[it]?.get(this)
+        if (value is EquipmentItem) value
+        else null
+      }
+    } catch (_: Throwable) {
+      val map = mutableMapOf<String, EquipmentItem?>()
+      map.set(key = "offhand", value = offhand)
+      map.set(key = "helmet", value = helmet)
+      map.set(key = "chestplate", value = chestplate)
+      map.set(key = "leggings", value = leggings)
+      map.set(key = "boots", value = boots)
+      return map
+    }
   }
 }
