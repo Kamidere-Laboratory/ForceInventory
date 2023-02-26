@@ -5,6 +5,7 @@ import co.aikar.commands.PaperCommandManager
 import com.charleskorn.kaml.Yaml
 import org.bukkit.event.HandlerList
 import org.bukkit.plugin.java.JavaPlugin
+import org.jetbrains.annotations.NotNull
 import re.kamide.forceinventory.commands.MainCommand
 import re.kamide.forceinventory.config.Config
 import re.kamide.forceinventory.listeners.PlayerListener
@@ -13,8 +14,8 @@ import java.io.File
 class ForceInventory: JavaPlugin() {
   private var commandManager: PaperCommandManager? = null
   private val configFile = File(dataFolder, "config.yml")
-  private var pluginConfig: Config = Yaml.default.decodeFromStream(Config.serializer(), configFile.inputStream())
-
+  @NotNull
+  private var pluginConfig: Config? = null
 
   @Suppress("DEPRECATION")
   override fun onEnable() {
@@ -23,6 +24,7 @@ class ForceInventory: JavaPlugin() {
     commandManager!!.enableUnstableAPI("help")
 
     commandManager!!.registerCommand(MainCommand(this))
+    updateConfig()
   }
 
 
@@ -38,7 +40,7 @@ class ForceInventory: JavaPlugin() {
 
   private fun registerEvents() {
     HandlerList.unregisterAll(this)
-    server.pluginManager.registerEvents(PlayerListener(pluginConfig), this)
+    server.pluginManager.registerEvents(PlayerListener(pluginConfig!!), this)
   }
 
   override fun onDisable() {

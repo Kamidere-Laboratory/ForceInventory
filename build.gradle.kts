@@ -27,7 +27,7 @@ dependencies {
 
 buildscript {
     configurations {
-        version = "0.1.2"
+        version = "0.1.3"
     }
 }
 
@@ -37,7 +37,6 @@ java {
 
 tasks {
     shadowJar {
-        archiveFileName.set("ForceInventory")
         archiveClassifier.set("")
         relocate("co.aikar.commands", "re.kamide.forceinventory.libs.acf")
         relocate("co.aikar.locales", "re.kamide.forceinventory.libs.acf.locales")
