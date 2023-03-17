@@ -1,4 +1,7 @@
 # rows from bottom to top. Hotbar is row 1
+# items in nbt format should be stored in items directory
+# If `nbt` is set to true on item then property `item` must
+# have name of nbt file
 inventory:
   - row: 1
     slots:

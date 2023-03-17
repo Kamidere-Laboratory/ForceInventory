@@ -19,7 +19,7 @@ class MainCommand(private val plugin: ForceInventory) : BaseCommand() {
   @Description("Reload ForceInventory config")
   @CommandPermission("forceinventory.command.reload")
   fun onReloadSubCommand(sender: CommandSender) {
-    plugin.updateConfig()
+    plugin.reloadConfig()
     sender.sendMessage(miniMessage().deserialize("ForceInventory config reloaded"))
   }
 

@@ -1,20 +1,14 @@
 package re.kamide.forceinventory.config
 
 import kotlinx.serialization.Serializable
-import org.jetbrains.annotations.Nullable
 import kotlin.reflect.full.declaredMemberProperties
 
 @Serializable
 data class Equipment(
-  @get:Nullable
   val offhand: EquipmentItem? = null,
-  @get:Nullable
   val helmet: EquipmentItem? = null,
-  @get:Nullable
   val chestplate: EquipmentItem? = null,
-  @get:Nullable
   val leggings: EquipmentItem? = null,
-  @get:Nullable
   val boots: EquipmentItem? = null
 ) {
   fun toMap() : Map<String, EquipmentItem?> {
